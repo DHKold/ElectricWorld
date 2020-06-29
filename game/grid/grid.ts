@@ -8,7 +8,7 @@ export class Grid {
   public start: Point = new Point(0, 0);
   public components: GridComponent[] = [];
 
-  private _scale: number = 128;
+  private _scale: number = 16;
 
   public constructor(
     private canvas: HTMLCanvasElement,
