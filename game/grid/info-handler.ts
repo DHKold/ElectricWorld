@@ -19,13 +19,13 @@ export class InfoHandler {
 
   public enable(): void {
     this.isEnabled = true;
-    this.canvas.addEventListener("click", this._selectCell);
+    this.canvas.addEventListener("mousemove", this._selectCell);
     this.toggleButton.classList.add("activated");
   }
 
   public disbale(): void {
     this.isEnabled = false;
-    this.canvas.removeEventListener("click", this._selectCell);
+    this.canvas.removeEventListener("mousemove", this._selectCell);
     this.toggleButton.classList.remove("activated");
   }
 
@@ -38,7 +38,9 @@ export class InfoHandler {
     let cell = this.grid.getCellAt(
       new Point(event.clientX - rect.left, event.clientY - rect.top)
     );
-    console.log(cell);
+
+    // TODO Should be generic
+    document.getElementById('lblCursorCell').innerText = `(${cell.x};${cell.y})`;
   }
 
   private _selectCell = this.selectCell.bind(this);
