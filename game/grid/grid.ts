@@ -8,7 +8,7 @@ export class Grid {
   public start: Point = new Point(0, 0);
   public components: GridComponent[] = [];
 
-  private _scale: number = 16;
+  private _scale: number = 128;
 
   public constructor(
     private canvas: HTMLCanvasElement,
@@ -112,7 +112,7 @@ export class Grid {
       // Draw area
       this.context.save();
       this.context.beginPath();
-      this.context.translate(zone.x, zone.y);
+      this.context.translate(zone.x + 0.5, zone.y + 0.5);
       c.draw(this.context, this.scale);
       this.context.closePath();
       this.context.restore();

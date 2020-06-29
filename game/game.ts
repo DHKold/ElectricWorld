@@ -1,6 +1,11 @@
 import { Point, Rect, Cell } from "./shapes";
-import { Grid, InfoHandler, NavigationHandler, CablingHandler } from "./grid";
-import { CableComponent } from "./components";
+import {
+  Grid,
+  InfoHandler,
+  NavigationHandler,
+  CablingHandler,
+  ComponentsHandler
+} from "./grid";
 
 export class Game {
   private context: CanvasRenderingContext2D;
@@ -33,5 +38,6 @@ export class Game {
     new NavigationHandler(this.grid, this.canvas);
     new InfoHandler(this.grid, this.canvas);
     new CablingHandler(this.grid, this.canvas);
+    new ComponentsHandler(this.grid, this.canvas);
   }
 }
