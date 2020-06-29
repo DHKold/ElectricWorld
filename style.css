@@ -3,3 +3,21 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
+.toolbar{
+  position: fixed;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  background: rgba(256,256,256,0.5);
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+}
+
+.toolbar button{
+  background: red;
+}
+
+button.activated{
+  background: green;
+}
