@@ -5,4 +5,6 @@ export abstract class GridComponent {
   public visible: boolean = true;
 
   public constructor(public position: Rect) {}
+
+  abstract draw(context: CanvasRenderingContext2D, scale: number): void;
 }
