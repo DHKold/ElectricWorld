@@ -49,8 +49,8 @@ export class CablingHandler {
 
     // Cancel cable
     if (this.cable && event.button == 2) {
-      const index = this.grid.cables.findIndex(c => c === this.cable);
-      this.grid.cables.splice(index, 1);
+      const index = this.grid.components.findIndex(c => c === this.cable);
+      this.grid.components.splice(index, 1);
       this.cable = null;
       this.grid.draw();
       return;
@@ -59,7 +59,7 @@ export class CablingHandler {
     // Start a new cable
     if (!this.cable && event.button == 0) {
       this.cable = new CableComponent(cell, cell);
-      this.grid.cables.push(this.cable);
+      this.grid.components.push(this.cable);
       this.grid.draw();
       return;
     }

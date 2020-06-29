@@ -1,4 +1,4 @@
-import { CableComponent, OverComponent } from "../components";
+import { GridComponent } from "../components";
 import { Cell, Point, Rect } from "../shapes";
 
 export class Grid {
@@ -6,8 +6,7 @@ export class Grid {
   public MIN_SCALE = 1;
 
   public start: Point = new Point(0, 0);
-  public components: OverComponent[] = [];
-  public cables: CableComponent[] = [];
+  public components: GridComponent[] = [];
 
   private _scale: number = 16;
 
@@ -97,8 +96,8 @@ export class Grid {
     this.context.setLineDash([]);
     this.context.restore();
 
-    // Cables
-    this.cables.forEach(c => {
+    // Components
+    this.components.forEach(c => {
       // Properties
       const p0 = this.getCellCoord(new Cell(c.position.x, c.position.y));
       const zone = new Rect(
