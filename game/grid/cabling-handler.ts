@@ -20,7 +20,7 @@ export class CablingHandler {
       this.isEnabled ? this.disbale() : this.enable();
     });
 
-    this.enable();
+    this.disbale();
   }
 
   public enable(): void {

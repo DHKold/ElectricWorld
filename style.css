@@ -15,9 +15,18 @@ body {
 }
 
 .toolbar button{
+  border: 0;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
   background: red;
+  cursor: pointer;
 }
 
 button.activated{
-  background: green;
+  background: #3333CC;
 }

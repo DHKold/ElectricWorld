@@ -1,6 +1,6 @@
 import { Rect } from "../shapes";
 
-export class GridComponent {
+export abstract class GridComponent {
   public ghost: boolean = true;
   public visible: boolean = true;
 
