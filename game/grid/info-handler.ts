@@ -3,29 +3,28 @@ import { Point } from "../shapes";
 
 export class InfoHandler {
   public constructor(private grid: Grid, private canvas: HTMLCanvasElement) {
-    this.attachEvents();
+    this.enable();
   }
 
-  private attachEvents(): void {
+  public enable(): void {
+    this.canvas.addEventListener("click", this._selectCell);
+  }
+
+  public disbale(): void {
+    this.canvas.removeEventListener("click", this._selectCell);
+  }
+
+  private selectCell(event: MouseEvent): void {
+    // Must be inside the grid
+    if (!this.grid.isInside(new Point(event.clientX, event.clientY))) return;
+
+    // Detect cell under the cursor
     const rect = this.canvas.getBoundingClientRect();
-    const isInsideGrid = (p: Point) => {
-      return (
-        p.x >= rect.left &&
-        p.x < rect.left + this.canvas.width &&
-        p.y >= rect.top &&
-        p.y < rect.top + this.canvas.height
-      );
-    };
-
-    this.canvas.addEventListener("click", e => {
-      // Must be inside the grid
-      if (!isInsideGrid(new Point(e.clientX, e.clientY))) return;
-
-      // Detect cell under the cursor
-      let cell = this.grid.getCellAt(
-        new Point(e.clientX - rect.left, e.clientY - rect.top)
-      );
-      console.log(cell);
-    });
+    let cell = this.grid.getCellAt(
+      new Point(event.clientX - rect.left, event.clientY - rect.top)
+    );
+    console.log(cell);
   }
+
+  private _selectCell = this.selectCell.bind(this);
 }

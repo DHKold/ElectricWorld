@@ -2,14 +2,14 @@ import { CableComponent, OverComponent } from "../components";
 import { Cell, Point, Rect } from "../shapes";
 
 export class Grid {
-  public MAX_SCALE = 80;
-  public MIN_SCALE = 5;
+  public MAX_SCALE = 256;
+  public MIN_SCALE = 1;
 
   public start: Point = new Point(0, 0);
   public components: OverComponent[] = [];
   public cables: CableComponent[] = [];
 
-  private _scale: number = 20;
+  private _scale: number = 16;
 
   public constructor(
     private canvas: HTMLCanvasElement,
@@ -39,6 +39,16 @@ export class Grid {
     this.start.y = coord.y - Math.round(this.canvas.height / 2);
   }
 
+  public isInside(coord: Point): boolean {
+    const rect = this.canvas.getBoundingClientRect();
+    return (
+      coord.x >= rect.left &&
+      coord.x < rect.left + this.canvas.width &&
+      coord.y >= rect.top &&
+      coord.y < rect.top + this.canvas.height
+    );
+  }
+
   public get scale(): number {
     return this._scale;
   }
@@ -56,42 +66,33 @@ export class Grid {
 
   public draw(): void {
     // Units
-    let w = this.canvas.width / this.scale;
-    let h = this.canvas.height / this.scale;
-    let x0 = 0.5;
-    let y0 = 0.5;
-    let x1 = x0 + this.canvas.width;
-    let y1 = y0 + this.canvas.height;
+    let x1 = 0.5 + this.canvas.width;
+    let y1 = 0.5 + this.canvas.height;
     let xs = ((-this.start.x % this.scale) + this.scale) % this.scale;
     let ys = ((-this.start.y % this.scale) + this.scale) % this.scale;
 
     // Draw lines
     const path = new Path2D();
-    for (let x = 0; x < w; ++x) {
-      path.moveTo(x0 + xs + x * this.scale, y0);
-      path.lineTo(x0 + xs + x * this.scale, y1);
+    for (let x = 0; x < this.canvas.width / this.scale; ++x) {
+      path.moveTo(0.5 + xs + x * this.scale, 0.5);
+      path.lineTo(0.5 + xs + x * this.scale, y1);
     }
-    for (let y = 0; y < h; ++y) {
-      path.moveTo(x0, y0 + ys + y * this.scale);
-      path.lineTo(x1, y0 + ys + y * this.scale);
+    for (let y = 0; y < this.canvas.height / this.scale; ++y) {
+      path.moveTo(0.5, 0.5 + ys + y * this.scale);
+      path.lineTo(x1, 0.5 + ys + y * this.scale);
     }
 
     // Background
     this.context.fillStyle = "#145d0e";
-    this.context.fillRect(x0, y0, this.canvas.width, this.canvas.height);
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
     // Grid
     this.context.strokeStyle = "rgba(255,255,255,0.1)";
-    this.context.setLineDash([5, 2]);
+    if (this.scale > 2) {
+      this.context.setLineDash([6, 2]);
+      this.context.stroke(path);
+    }
     this.context.lineWidth = 1;
-    this.context.stroke(path);
     this.context.setLineDash([]);
-    // Border
-    this.context.strokeStyle = "#333333";
-    this.context.strokeRect(
-      x0,
-      y0,
-      this.canvas.width - 1,
-      this.canvas.height - 1
-    );
   }
 }
