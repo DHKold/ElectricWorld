@@ -1,5 +1,8 @@
 import { Rect } from "../shapes";
 
 export class GridComponent {
-  constructor(public position: Rect) {}
+  public ghost: boolean = true;
+  public visible: boolean = true;
+
+  public constructor(public position: Rect) {}
 }

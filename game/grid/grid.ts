@@ -83,6 +83,7 @@ export class Grid {
     }
 
     // Background
+    this.context.save();
     this.context.fillStyle = "#145d0e";
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -94,5 +95,28 @@ export class Grid {
     }
     this.context.lineWidth = 1;
     this.context.setLineDash([]);
+    this.context.restore();
+
+    // Cables
+    this.cables.forEach(c => {
+      // Properties
+      const p0 = this.getCellCoord(new Cell(c.position.x, c.position.y));
+      const zone = new Rect(
+        p0.x,
+        p0.y,
+        c.position.w * this.scale,
+        c.position.h * this.scale
+      );
+
+      // Check if the cable is visible on screen
+
+      // Draw area
+      this.context.save();
+      this.context.beginPath();
+      this.context.translate(zone.x, zone.y);
+      c.draw(this.context, this.scale);
+      this.context.closePath();
+      this.context.restore();
+    });
   }
 }
