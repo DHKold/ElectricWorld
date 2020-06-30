@@ -1,6 +1,11 @@
 import { Grid } from "./grid";
 import { Point } from "../shapes";
-import { PowerComponent, GridComponent } from "../components";
+import {
+  PowerComponent,
+  GridComponent,
+  LedComponent,
+  GroundComponent
+} from "../components";
 
 export class ComponentsHandler {
   private isEnabled: boolean = false;
@@ -8,8 +13,12 @@ export class ComponentsHandler {
 
   private _clickHandler = this.clickHandler.bind(this);
   private _moveHandler = this.moveHandler.bind(this);
+  private _keyupHandler = this.keyupHandler.bind(this);
 
   private component: GridComponent = null;
+
+  public componentClasses = [PowerComponent, GroundComponent, LedComponent];
+  public activeClass = 0;
 
   public constructor(private grid: Grid, private canvas: HTMLCanvasElement) {
     this.toggleButton = document.getElementById(
@@ -27,6 +36,7 @@ export class ComponentsHandler {
     this.isEnabled = true;
     this.canvas.addEventListener("mouseup", this._clickHandler);
     this.canvas.addEventListener("mousemove", this._moveHandler);
+    window.addEventListener("keyup", this._keyupHandler);
     this.toggleButton.classList.add("activated");
   }
 
@@ -34,6 +44,7 @@ export class ComponentsHandler {
     this.isEnabled = false;
     this.canvas.removeEventListener("mouseup", this._clickHandler);
     this.canvas.removeEventListener("mousemove", this._moveHandler);
+    window.removeEventListener("keyup", this._keyupHandler);
     this.toggleButton.classList.remove("activated");
   }
 
@@ -58,7 +69,7 @@ export class ComponentsHandler {
 
     // Start a new component
     if (!this.component && event.button == 0) {
-      this.component = new PowerComponent(cell);
+      this.component = new this.componentClasses[this.activeClass](cell);
       this.grid.components.push(this.component);
       this.grid.draw();
       return;
@@ -91,6 +102,18 @@ export class ComponentsHandler {
     // Update component
     this.component.position.x = cell.x;
     this.component.position.y = cell.y;
+    this.grid.draw();
+  }
+
+  private keyupHandler(event: KeyboardEvent): void {
+    // Must not be drawing
+    if (this.component) return;
+
+    // Cycle
+    if (event.keyCode === 65) this.activeClass++;
+    if (event.keyCode === 69) this.activeClass--;
+    const max = this.componentClasses.length;
+    this.activeClass = ((this.activeClass % max) + max) % max;
     this.grid.draw();
   }
 }
