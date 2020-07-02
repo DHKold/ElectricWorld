@@ -2,9 +2,9 @@ import { Cell, Rect } from "../shapes";
 import { GridComponent } from "./grid-component";
 
 export class CableComponent extends GridComponent {
-  public static STYLE_ON_COLOR = "#F7DD4A";
-  public static STYLE_OFF_COLOR = "#CCCCCC";
-  public static STYLE_GHOST_COLOR = "rgba(256,256,256,0.5)";
+  public static STYLE_ON_COLOR = "#FAAB00";
+  public static STYLE_OFF_COLOR = "#1B1A1A";
+  public static STYLE_GHOST_COLOR = "#2C6778";
 
   private _start: Cell;
   private _end: Cell;

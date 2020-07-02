@@ -5,6 +5,9 @@ export class Grid {
   public MAX_SCALE = 256;
   public MIN_SCALE = 1;
 
+  public STYLE_COLOR_GRID_BG = "#D8EAEF";
+  public STYLE_COLOR_GRID_FG = "rgba(116, 163, 177,0.75)";
+
   public start: Point = new Point(0, 0);
   public components: GridComponent[] = [];
 
@@ -83,11 +86,11 @@ export class Grid {
 
     // Background
     this.context.save();
-    this.context.fillStyle = "#145d0e";
+    this.context.fillStyle = this.STYLE_COLOR_GRID_BG;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Grid
-    this.context.strokeStyle = "rgba(255,255,255,0.1)";
+    this.context.strokeStyle = this.STYLE_COLOR_GRID_FG;
     if (this.scale > 2) {
       this.context.setLineDash([6, 2]);
       this.context.stroke(path);
